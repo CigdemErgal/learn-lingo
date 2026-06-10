@@ -1,0 +1,7 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #121417;
+  --color-accent: #f4c550;
+  --color-border: rgba(18, 20, 23, 0.1);
+  --font-family: "Roboto", sans-serif;
+}
