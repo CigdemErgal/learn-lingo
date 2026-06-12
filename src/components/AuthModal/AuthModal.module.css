@@ -1,0 +1,22 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  color: #121417;
+  transparent: 80%;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 48px;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.description {
+  color: rgba(18, 20, 23, 0.8);
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+}

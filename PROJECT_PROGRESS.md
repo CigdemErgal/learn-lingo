@@ -4,6 +4,8 @@ Bu dosya, projeyi teknik sartnameye gore adim adim takip etmek icin olusturuldu.
 
 ## Genel Kural
 
+-proje mentor modunda yapılacak.
+
 - Proje tek seferde bitirilmeyecek.
 - Her buyuk adimdan once ne yapilacagi aciklanacak.
 - Teknik sartnamede istenmeyen ekstra ozellik eklenmeyecek.
@@ -142,9 +144,7 @@ Return icinde:
 ```tsx
 <div className={css.app}>
   <Header />
-  <Routes>
-    ...
-  </Routes>
+  <Routes>...</Routes>
 </div>
 ```
 

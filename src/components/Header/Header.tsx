@@ -2,8 +2,11 @@ import { NavLink } from "react-router-dom";
 import loginIcon from "../../assets/login-icon.svg";
 import css from "./Header.module.css";
 
-
-function Header() {
+type HeaderProps = {
+  onLoginClick: () => void;
+  onRegisterClick: () => void;
+};
+function Header({ onLoginClick, onRegisterClick }: HeaderProps) {
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${css.navLink} ${css.navLinkActive}` : css.navLink;
 
@@ -27,16 +30,19 @@ function Header() {
           </NavLink>
         </nav>
         <div className={css.actions}>
-          
-          <button type="button" className={css.loginButton}>
-            <img
-            src={loginIcon}
-            alt="Login-icon"
-            className={css.loginIcon}
-          />
+          <button
+            type="button"
+            className={css.loginButton}
+            onClick={onLoginClick}
+          >
+            <img src={loginIcon} alt="Login-icon" className={css.loginIcon} />
             Login
           </button>
-          <button type="button" className={css.registrationButton}>
+          <button
+            type="button"
+            className={css.registrationButton}
+            onClick={onRegisterClick}
+          >
             Registration
           </button>
         </div>
