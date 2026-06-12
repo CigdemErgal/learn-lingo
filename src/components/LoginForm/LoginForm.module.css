@@ -42,3 +42,10 @@
   font-size: 18px;
   font-weight: 700;
 }
+.error {
+  margin-top: -8px;
+  margin-bottom: 12px;
+  color: #d64545;
+  font-size: 12px;
+  line-height: 1.4;
+}

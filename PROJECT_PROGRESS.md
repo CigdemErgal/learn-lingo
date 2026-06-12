@@ -156,54 +156,143 @@ Return icinde:
 }
 ```
 
-## Kalanlar
+### 5. Adim: Header Butonlarini Auth Modal Icin Hazirlama
 
-### Siradaki Adim: Header Butonlarini Auth Modal Icin Hazirlama
+#### Bu adimda ne yaptik?
 
-#### Bu adimda ne yapacagiz?
+`App` icinde auth modal state'i kuruldu. `Header` componenti `onLoginClick` ve `onRegisterClick` prop'lari alacak sekilde guncellendi.
 
-Header icindeki `Login` ve `Registration` butonlarina click davranisi ekleyecegiz. Butonlar route'a gitmeyecek; App icindeki modal state'i tetikleyecek.
+#### Neden bunu yaptik?
 
-#### Neden bunu yapacagiz?
+Teknik sartnameye gore Login ve Registration route ile degil modal ile acilmaliydi. Bunun ilk baglantisi App-Header arasinda kuruldu.
 
-Teknik sartnameye gore Login ve Registration ayri sayfa degil, modal olarak acilmali.
-
-#### Hangi dosyalari degistirecegiz?
+#### Degisen dosyalar
 
 - `src/app/App.tsx`
 - `src/components/Header/Header.tsx`
 
+#### Sonuc
+
+- Login butonu `login` modal tipini tetikliyor.
+- Registration butonu `register` modal tipini tetikliyor.
+- Header link yapisi bozulmadan modal acilis zemini hazirlandi.
+
+### 6. Adim: Modal ve AuthModal Altyapisini Kurma
+
+#### Bu adimda ne yaptik?
+
+Ortak `Modal` componenti kuruldu. `AuthModal` componenti ise `modalType` degerine gore Login veya Registration icerigini gosterecek sekilde hazirlandi.
+
+#### Neden bunu yaptik?
+
+Projede birden fazla modal kullanilacagi icin ortak kutu mantiginin ayri tutulmasi gerekiyordu. AuthModal ise bu ortak yapinin auth senaryosuna uygulanmis hali oldu.
+
+#### Degisen dosyalar
+
+- `src/components/Modal/Modal.tsx`
+- `src/components/Modal/Modal.module.css`
+- `src/components/AuthModal/AuthModal.tsx`
+- `src/components/AuthModal/AuthModal.module.css`
+- `src/app/App.tsx`
+
+#### Sonuc
+
+- Modal backdrop ile aciliyor.
+- `Esc` ile kapanma calisiyor.
+- Backdrop tiklandiginda modal kapaniyor.
+- X butonu ile kapanma calisiyor.
+- Login ve Registration modal baslik/aciklama alanlari figmaya yakin sekilde yerlestirildi.
+
+### 7. Adim: Login ve Register Form Iskeletini Kurma
+
+#### Bu adimda ne yaptik?
+
+`LoginForm` ve `RegisterForm` componentleri olusturuldu. Inputlar, butonlar, eye-off iconu ve temel CSS module stilleri kuruldu.
+
+#### Neden bunu yaptik?
+
+Auth modalin sadece gorunmesi yetmezdi; kullanicidan veri alacak form alanlarinin da hazirlanmasi gerekiyordu.
+
+#### Degisen dosyalar
+
+- `src/components/LoginForm/LoginForm.tsx`
+- `src/components/LoginForm/LoginForm.module.css`
+- `src/components/RegisterForm/RegisterForm.tsx`
+- `src/components/RegisterForm/RegisterForm.module.css`
+- `src/assets/close-icon.svg`
+- `src/assets/eye-off-icon.svg`
+
+#### Sonuc
+
+- Login formunda email ve password alanlari kuruldu.
+- Register formunda name, email ve password alanlari kuruldu.
+- Button ve icon yerlesimleri figmaya yaklastirildi.
+- Formlar `AuthModal` icinde dogru kosullarla render edilmeye basladi.
+
+### 8. Adim: react-hook-form ve yup Validasyonunu Baglama
+
+#### Bu adimda ne yaptik?
+
+Her iki formda `useForm` kuruldu. `validationSchemas.ts` icinde login ve register icin yup schemalari yazildi ve `yupResolver` ile formlara baglandi. Hata mesajlari ekrana yazdirildi.
+
+#### Neden bunu yaptik?
+
+Formlarin sadece gorunmesi degil, kurallara gore veri dogrulamasi da yapmasi gerekiyordu. Bu adim Firebase baglantisindan once form mantigini guvenli hale getirdi.
+
+#### Degisen dosyalar
+
+- `src/components/LoginForm/LoginForm.tsx`
+- `src/components/RegisterForm/RegisterForm.tsx`
+- `src/components/LoginForm/LoginForm.module.css`
+- `src/components/RegisterForm/RegisterForm.module.css`
+- `src/utils/validationSchemas.ts`
+
+#### Sonuc
+
+- Login formu `react-hook-form` ile calisiyor.
+- Register formu `react-hook-form` ile calisiyor.
+- Login schema: email format ve password min karakter kuralina sahip.
+- Register schema: name, email ve password kurallariyla calisiyor.
+- Hata mesajlari component icinde gosterilmeye baslandi.
+
+## Kalanlar
+
+### Siradaki Adim: Firebase Auth Fonksiyonlarini Baglama
+
+#### Bu adimda ne yapacagiz?
+
+`firebase/auth.ts` dosyasi icinde login ve register fonksiyonlarini yazacagiz. Ardindan `LoginForm` ve `RegisterForm` submitlerinde bu fonksiyonlari cagiracagiz.
+
+#### Neden bunu yapacagiz?
+
+Formlarin UI ve validasyon kismi tamamlandi. Simdi bu formlarin Firebase Authentication ile gercek islem yapmasi gerekiyor.
+
+#### Hangi dosyalari degistirecegiz?
+
+- `src/firebase/auth.ts`
+- `src/components/LoginForm/LoginForm.tsx`
+- `src/components/RegisterForm/RegisterForm.tsx`
+
 #### Planlanan kod mantigi
 
-App icinde auth modal tipi state olarak tutulacak:
+Firebase login icin email ve password alacak bir fonksiyon tanimlanacak:
 
-```tsx
-type AuthModalType = "login" | "register" | null;
+```ts
+loginUser(email, password)
 ```
 
-Header'a iki fonksiyon prop olarak verilecek:
+Firebase register icin name, email ve password alacak bir fonksiyon tanimlanacak:
 
-```tsx
-<Header
-  onLoginClick={() => setAuthModalType("login")}
-  onRegisterClick={() => setAuthModalType("register")}
-/>
-```
-
-Header bu fonksiyonlari butonlarda kullanacak:
-
-```tsx
-<button type="button" onClick={onLoginClick}>
-  Login
-</button>
+```ts
+registerUser(name, email, password)
 ```
 
 #### Kontrol
 
-- Header gorunmeye devam etmeli.
-- Home, Teachers, Favorites linkleri calismali.
-- Login ve Registration butonlari console hatasi uretmemeli.
-- Modal componenti henuz hazir degilse, sadece state hazirlanmali.
+- Basarili login sonrasi form submiti console hatasi vermemeli.
+- Basarili register sonrasi form submiti console hatasi vermemeli.
+- Firebase hata donerse uygun sekilde yakalanmali.
+- Form validasyonu bozulmamali.
 
 #### Onay
 
@@ -211,56 +300,7 @@ Bu adima baslamadan once kullanicidan onay alinacak.
 
 ### Sonraki Kalan Adimlar
 
-#### 1. Modal Component
-
-- `src/components/Modal/Modal.tsx`
-- `src/components/Modal/Modal.module.css`
-
-Yapilacaklar:
-
-- Backdrop tiklayinca kapanma
-- X butonu ile kapanma
-- Esc tusu ile kapanma
-- Console hatasi olmadan calisma
-
-#### 2. AuthModal Component
-
-- `src/components/AuthModal/AuthModal.tsx`
-- `src/components/AuthModal/AuthModal.module.css`
-
-Yapilacaklar:
-
-- Login ve Registration modlarini yonetme
-- LoginForm veya RegisterForm componentini gostermek
-- Header butonlariyla baglanmak
-
-#### 3. LoginForm
-
-- `src/components/LoginForm/LoginForm.tsx`
-- `src/components/LoginForm/LoginForm.module.css`
-- `src/utils/validationSchemas.ts`
-- `src/firebase/auth.ts`
-
-Yapilacaklar:
-
-- react-hook-form kullanmak
-- yup ile validasyon yapmak
-- Firebase Authentication ile login islemi yapmak
-
-#### 4. RegisterForm
-
-- `src/components/RegisterForm/RegisterForm.tsx`
-- `src/components/RegisterForm/RegisterForm.module.css`
-- `src/utils/validationSchemas.ts`
-- `src/firebase/auth.ts`
-
-Yapilacaklar:
-
-- react-hook-form kullanmak
-- yup ile validasyon yapmak
-- Firebase Authentication ile kayit islemi yapmak
-
-#### 5. Auth State ve Logout
+#### 1. Auth State ve Logout
 
 - `src/hooks/useAuth.ts`
 - `src/firebase/auth.ts`
@@ -272,7 +312,7 @@ Yapilacaklar:
 - Kullanici giris yaptiysa Header'da logout davranisi eklemek
 - Yetkisiz kullanici durumlarini kontrol etmek
 
-#### 6. Home Page Tasarimi
+#### 2. Home Page Tasarimi
 
 - `src/pages/HomePage/HomePage.tsx`
 - `src/pages/HomePage/HomePage.module.css`
@@ -284,7 +324,7 @@ Yapilacaklar:
 - Teachers sayfasina giden CTA butonu
 - Figma temasina uygun tutarli stil
 
-#### 7. Firebase Realtime Database
+#### 3. Firebase Realtime Database
 
 - `src/firebase/firebase.ts`
 - `src/firebase/teachers.ts`
@@ -296,7 +336,7 @@ Yapilacaklar:
 - Teachers verisini Realtime Database'den alma
 - Ilk 4 ogretmeni gosterecek veri akisini hazirlama
 
-#### 8. Teachers Page ve Load More
+#### 4. Teachers Page ve Load More
 
 - `src/pages/TeachersPage/TeachersPage.tsx`
 - `src/pages/TeachersPage/TeachersPage.module.css`
@@ -309,7 +349,7 @@ Yapilacaklar:
 - Load more ile yeni veri istemek
 - Liste bos/yukleniyor durumlarini yonetmek
 
-#### 9. TeacherCard
+#### 5. TeacherCard
 
 - `src/components/TeacherCard/TeacherCard.tsx`
 - `src/components/TeacherCard/TeacherCard.module.css`
@@ -322,7 +362,7 @@ Yapilacaklar:
 - Book trial lesson butonunu eklemek
 - Favori kalp butonunu eklemek
 
-#### 10. Trial Lesson Modal
+#### 6. Trial Lesson Modal
 
 - `src/components/TrialLessonModal/TrialLessonModal.tsx`
 - `src/components/TrialLessonModal/TrialLessonModal.module.css`
@@ -335,7 +375,7 @@ Yapilacaklar:
 - Submit sonrasi basarili mesaj
 - Gereksiz backend kaydi eklememek
 
-#### 11. Favorites Mantigi
+#### 7. Favorites Mantigi
 
 - `src/hooks/useFavorites.ts`
 - `src/pages/FavoritesPage/FavoritesPage.tsx`
@@ -349,7 +389,7 @@ Yapilacaklar:
 - Sayfa yenilenince favori durumu korunmali
 - localStorage veya Firebase yontemi kullaniciyla birlikte secilmeli
 
-#### 12. Filters
+#### 8. Filters
 
 - `src/components/Filters/Filters.tsx`
 - `src/components/Filters/Filters.module.css`
@@ -362,7 +402,7 @@ Yapilacaklar:
 - Saatlik ucret filtresi
 - Teachers listesine filtreleri uygulamak
 
-#### 13. Protected Favorites Route
+#### 9. Protected Favorites Route
 
 - `src/app/App.tsx`
 - `src/hooks/useAuth.ts`
@@ -372,7 +412,7 @@ Yapilacaklar:
 
 - Yetkisiz kullanici `/favorites` sayfasina giderse uygun sekilde yonlendirmek veya bilgilendirmek
 
-#### 14. README
+#### 10. README
 
 - `README.md`
 
@@ -384,7 +424,7 @@ Yapilacaklar:
 - Maket bilgisi
 - Deploy linki
 
-#### 15. Final Kontroller
+#### 11. Final Kontroller
 
 Yapilacaklar:
 
@@ -399,6 +439,6 @@ Yapilacaklar:
 
 Bir sonraki oturumda su adimdan devam edilecek:
 
-**Header butonlarini Auth Modal icin hazirlama**
+**Firebase auth fonksiyonlarini baglama**
 
-Once kisa aciklama yapilacak, sonra kullanicidan onay alinacak. Onaydan sonra sadece `src/app/App.tsx` ve `src/components/Header/Header.tsx` uzerinde kucuk bir state/prop baglantisi kurulacak.
+Once `src/firebase/auth.ts` dosyasi okunacak. Sonra login ve register icin gerekli Firebase Authentication fonksiyonlari yazilacak. Ardindan bu fonksiyonlar `LoginForm` ve `RegisterForm` submitlerine baglanacak.
