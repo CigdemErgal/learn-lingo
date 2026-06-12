@@ -1,6 +1,7 @@
 import Modal from "../Modal/Modal";
 import css from "./AuthModal.module.css";
 import LoginForm from "../LoginForm/LoginForm";
+import RegisterForm from "../RegisterForm/RegisterForm";
 
 type AuthModalProps = {
   modalType: "login" | "register" | null;
@@ -20,7 +21,9 @@ function AuthModal({ modalType, onClose }: AuthModalProps) {
       <div className={css.content}>
         <h2 className={css.title}>{title}</h2>
         <p className={css.description}>{description}</p>
-        {modalType === "login" && <LoginForm />}
+
+        {modalType === "login" ? <LoginForm /> : null}
+        {modalType === "register" ? <RegisterForm /> : null}
       </div>
     </Modal>
   );
