@@ -21,14 +21,8 @@ function Modal({ children, onClose }: ModalProps) {
     };
   }, [onClose]);
 
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
   return (
-    <div className={css.backdrop} onClick={handleBackdropClick}>
+    <div className={css.backdrop}>
       <div className={css.modal}>
         <button type="button" className={css.closeButton} onClick={onClose}>
           <img src={closeIcon} alt="Close modal" className={css.closeIcon} />

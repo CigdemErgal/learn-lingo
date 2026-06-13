@@ -1,12 +1,22 @@
 import { NavLink } from "react-router-dom";
 import loginIcon from "../../assets/login-icon.svg";
 import css from "./Header.module.css";
+import type { User } from "firebase/auth";
 
 type HeaderProps = {
   onLoginClick: () => void;
   onRegisterClick: () => void;
+  user: User | null;
+  isLoading: boolean;
+  onLogoutClick: () => void;
 };
-function Header({ onLoginClick, onRegisterClick }: HeaderProps) {
+function Header({
+  onLoginClick,
+  onRegisterClick,
+  onLogoutClick,
+  user,
+  isLoading,
+}: HeaderProps) {
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${css.navLink} ${css.navLinkActive}` : css.navLink;
 
@@ -29,22 +39,39 @@ function Header({ onLoginClick, onRegisterClick }: HeaderProps) {
             Favorites
           </NavLink>
         </nav>
+
         <div className={css.actions}>
-          <button
-            type="button"
-            className={css.loginButton}
-            onClick={onLoginClick}
-          >
-            <img src={loginIcon} alt="Login-icon" className={css.loginIcon} />
-            Login
-          </button>
-          <button
-            type="button"
-            className={css.registrationButton}
-            onClick={onRegisterClick}
-          >
-            Registration
-          </button>
+          {isLoading ? null : user ? (
+            <button
+              type="button"
+              className={css.logoutButton}
+              onClick={onLogoutClick}
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <button
+                type="button"
+                className={css.loginButton}
+                onClick={onLoginClick}
+              >
+                <img
+                  src={loginIcon}
+                  alt="Login-icon"
+                  className={css.loginIcon}
+                />
+                Login
+              </button>
+              <button
+                type="button"
+                className={css.registrationButton}
+                onClick={onRegisterClick}
+              >
+                Registration
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>

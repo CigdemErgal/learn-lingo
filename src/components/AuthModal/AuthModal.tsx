@@ -22,8 +22,8 @@ function AuthModal({ modalType, onClose }: AuthModalProps) {
         <h2 className={css.title}>{title}</h2>
         <p className={css.description}>{description}</p>
 
-        {modalType === "login" ? <LoginForm /> : null}
-        {modalType === "register" ? <RegisterForm /> : null}
+        {modalType === "login" ? <LoginForm onClose={onClose} /> : null}
+        {modalType === "register" ? <RegisterForm onClose={onClose} /> : null}
       </div>
     </Modal>
   );

@@ -3,6 +3,8 @@ import eyeOffIcon from "../../assets/eye-off-icon.svg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils/validationSchemas";
+import { registerUser } from "../../firebase/auth";
+import { useState } from "react";
 
 type RegisterFormData = {
   name: string;
@@ -10,7 +12,11 @@ type RegisterFormData = {
   password: string;
 };
 
-function RegisterForm() {
+type RegisterFormProps = {
+  onClose: () => void;
+};
+
+function RegisterForm({ onClose }: RegisterFormProps) {
   const {
     register,
     handleSubmit,
@@ -19,8 +25,17 @@ function RegisterForm() {
     resolver: yupResolver(registerSchema),
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState("");
+
+  const onSubmit = async (data: RegisterFormData) => {
+    setAuthError("");
+    try {
+      await registerUser(data.name, data.email, data.password);
+      onClose();
+    } catch {
+      setAuthError("This email is already in use.");
+    }
   };
 
   return (
@@ -43,7 +58,7 @@ function RegisterForm() {
       {errors.email && <p className={css.error}>{errors.email.message}</p>}
       <div className={css.passwordWrapper}>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           placeholder="Password"
           className={css.input}
@@ -53,11 +68,13 @@ function RegisterForm() {
           src={eyeOffIcon}
           alt="Toggle password visibility"
           className={css.passwordIcon}
+          onClick={() => setShowPassword((prev) => !prev)}
         />
       </div>
       {errors.password && (
         <p className={css.error}>{errors.password.message}</p>
       )}
+      {authError && <p className={css.error}>{authError}</p>}
       <button type="submit" className={css.button}>
         Sign Up
       </button>

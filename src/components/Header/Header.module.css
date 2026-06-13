@@ -35,7 +35,7 @@
   color: #121417;
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   line-height: 24px;
   letter-spacing: -0.02em;
 }
@@ -100,6 +100,29 @@
   cursor: pointer;
   padding: 12px 24px;
 }
+.logoutButton {
+  border: none;
+  border-radius: 12px;
+  background-color: #f4c550;
+  color: #121417;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  height: 60px;
+  padding: 16px 48px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #ffcd4d;
+}
+
+.logoutButton:active {
+  transform: scale(0.99);
+}
 
 @media (max-width: 900px) {
   .container {
@@ -110,12 +133,11 @@
     flex-wrap: wrap;
     gap: 12px;
   }
-.header {
+  .header {
     height: auto;
     display: flex;
-}
+  }
 
-  
   .actions {
     order: 2;
     width: 100%;
