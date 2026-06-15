@@ -1,6 +1,9 @@
 import css from "./HomePage.module.css";
 import homeIcon from "../../assets/home-icon.svg";
-import imacIcon from "../../assets/imac-icon.svg";
+import iMacIcon from "../../assets/iMac-icon.svg";
+
+import { Link } from "react-router-dom";
+
 function HomePage() {
   return (
     <main className={css.main}>
@@ -16,11 +19,13 @@ function HomePage() {
             highly qualified and experienced tutors.
           </p>
 
-          <button className={css.getStartedButton}>Get Started</button>
+          <Link to="/teachers" className={css.getStartedButton}>
+            Get Started
+          </Link>
         </div>
         <div className={css.imageContainer}>
           <img src={homeIcon} alt="Home Icon" className={css.homeIcon} />
-          <img src={imacIcon} alt="iMac Icon" className={css.imacIcon} />
+          <img src={iMacIcon} alt="iMac Icon" className={css.iMacIcon} />
         </div>
       </section>
 

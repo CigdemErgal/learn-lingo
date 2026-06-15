@@ -64,6 +64,10 @@
 }
 
 .getStartedButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   width: 267px;
   height: 60px;
   background-color: #f4c550;
@@ -102,7 +106,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
-.imacIcon {
+.iMacIcon {
   width: 360px;
   height: 247px;
   position: absolute;
