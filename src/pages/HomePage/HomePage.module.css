@@ -1,0 +1,146 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroTopSection {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+  margin-top: 20px;
+  margin-left: 64px;
+  margin-right: 64px;
+  border: none;
+  gap: 24px;
+}
+.container {
+  width: 720px;
+  height: 530px;
+  border-radius: 30px;
+  background: #f8f8f8;
+  padding-left: 24px;
+}
+.statsSection {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.bigTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 48px;
+  font-style: medium;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: #121417;
+  margin-top: 98px;
+  padding-left: 64px;
+  padding-right: 108px;
+}
+.language {
+  background-color: #fbe9ba;
+  color: #121417;
+  font-style: italic;
+}
+
+.subTitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: regular;
+  color: #121417;
+  letter-spacing: -0.02em;
+  line-height: 22px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  padding-left: 64px;
+  padding-right: 185px;
+}
+
+.getStartedButton {
+  width: 267px;
+  height: 60px;
+  background-color: #f4c550;
+  color: #121417;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 64px;
+  margin-left: 64px;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+.getStartedButton:hover {
+  background-color: #ffdc86;
+}
+
+.imageContainer {
+  width: 568px;
+  height: 530px;
+  position: relative;
+  background-color: #fbe9ba;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.homeIcon {
+  width: 339px;
+  height: 339px;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.imacIcon {
+  width: 360px;
+  height: 247px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -35px;
+}
+.statsSection {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  justify-content: center;
+  margin-left: 100px;
+  margin-top: 70px;
+}
+.statisticsContainer {
+  width: 1312px;
+  height: 116px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  border-radius: 30px;
+  border: #f4c550 2.5px dashed;
+}
+
+.statisticsTitle {
+  padding-right: 8px;
+  color: #121417;
+  font-family: "Roboto", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.statisticsSubtitle {
+  padding-right: 100px;
+  color: rgba(18, 20, 23, 0.7);
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
