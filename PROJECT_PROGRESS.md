@@ -255,74 +255,166 @@ Formlarin sadece gorunmesi degil, kurallara gore veri dogrulamasi da yapmasi ger
 - Register schema: name, email ve password kurallariyla calisiyor.
 - Hata mesajlari component icinde gosterilmeye baslandi.
 
-## Kalanlar
+### 9. Adim: Firebase Auth Fonksiyonlarini Baglama
 
-### Siradaki Adim: Firebase Auth Fonksiyonlarini Baglama
+#### Bu adimda ne yaptik?
 
-#### Bu adimda ne yapacagiz?
+`firebase/auth.ts` icinde register, login ve logout fonksiyonlari yazildi. Ardindan `LoginForm` ve `RegisterForm` submitlerinde bu fonksiyonlar baglandi.
 
-`firebase/auth.ts` dosyasi icinde login ve register fonksiyonlarini yazacagiz. Ardindan `LoginForm` ve `RegisterForm` submitlerinde bu fonksiyonlari cagiracagiz.
+#### Neden bunu yaptik?
 
-#### Neden bunu yapacagiz?
+Formlarin sadece UI ve validasyon icermesi yetmiyordu; teknik sartname geregi gercek authentication davranisinin da calismasi gerekiyordu.
 
-Formlarin UI ve validasyon kismi tamamlandi. Simdi bu formlarin Firebase Authentication ile gercek islem yapmasi gerekiyor.
-
-#### Hangi dosyalari degistirecegiz?
+#### Degisen dosyalar
 
 - `src/firebase/auth.ts`
 - `src/components/LoginForm/LoginForm.tsx`
 - `src/components/RegisterForm/RegisterForm.tsx`
 
-#### Planlanan kod mantigi
+#### Sonuc
 
-Firebase login icin email ve password alacak bir fonksiyon tanimlanacak:
+- Email ve password ile login calisiyor.
+- Name, email ve password ile register calisiyor.
+- Register sonrasi `displayName` guncelleniyor.
+- Auth hata durumlari form icinde mesaj olarak gosteriliyor.
 
-```ts
-loginUser(email, password)
-```
+### 10. Adim: Auth State ve Header Logout Davranisi
 
-Firebase register icin name, email ve password alacak bir fonksiyon tanimlanacak:
+#### Bu adimda ne yaptik?
 
-```ts
-registerUser(name, email, password)
-```
+`useAuth` hook'u ile mevcut kullanici takibi baglandi. `App` icinde auth state kullanildi ve `Header` logout davranisi ile guncellendi.
 
-#### Kontrol
+#### Neden bunu yaptik?
 
-- Basarili login sonrasi form submiti console hatasi vermemeli.
-- Basarili register sonrasi form submiti console hatasi vermemeli.
-- Firebase hata donerse uygun sekilde yakalanmali.
-- Form validasyonu bozulmamali.
+Teknik sartnameye gore uygulama yenilendiginde mevcut kullanici durumunun korunmasi ve yetkili/yetkisiz gorunumin dogru yonetilmesi gerekiyordu.
 
-#### Onay
-
-Bu adima baslamadan once kullanicidan onay alinacak.
-
-### Sonraki Kalan Adimlar
-
-#### 1. Auth State ve Logout
+#### Degisen dosyalar
 
 - `src/hooks/useAuth.ts`
-- `src/firebase/auth.ts`
+- `src/app/App.tsx`
 - `src/components/Header/Header.tsx`
 
-Yapilacaklar:
+#### Sonuc
 
-- Mevcut kullaniciyi takip etmek
-- Kullanici giris yaptiysa Header'da logout davranisi eklemek
-- Yetkisiz kullanici durumlarini kontrol etmek
+- Firebase auth state degisimi dinleniyor.
+- Kullanici giris yaptiysa logout butonu gosteriliyor.
+- Kullanici yoksa login ve registration butonlari gosteriliyor.
 
-#### 2. Home Page Tasarimi
+### 11. Adim: Home Page Hero Tasarimi ve CTA Gecisi
+
+#### Bu adimda ne yaptik?
+
+Home page'in hero alani, istatistik bandi ve gorsel yerlesimi Figma referansina gore kuruldu. `Get Started` alani `Teachers` sayfasina yonlendirecek sekilde baglandi.
+
+#### Neden bunu yaptik?
+
+Home sayfasi teknik sartnameye gore uygulamanin giris noktasi ve kullaniciyi `Teachers` sayfasina tasiyan ana CTA alanidir.
+
+#### Degisen dosyalar
 
 - `src/pages/HomePage/HomePage.tsx`
 - `src/pages/HomePage/HomePage.module.css`
+- `src/assets/home-icon.svg`
+- `src/assets/iMac-icon.svg`
+
+#### Sonuc
+
+- Hero alani tasarlandi.
+- Stats bandi eklendi.
+- `Get Started` davranisi `Link` ile `/teachers` sayfasina baglandi.
+
+### 12. Adim: Teachers Page Iskeleti ve Local JSON ile Listeleme
+
+#### Bu adimda ne yaptik?
+
+`TeachersPage` icin temel iskelet kuruldu. `teachers.json` verisi sayfaya baglandi ve ogretmenler local veri kaynagindan okunmaya baslandi.
+
+#### Neden bunu yaptik?
+
+Firebase'e gecmeden once UI ve listeleme mantigini statik veriyle dogrulamak daha guvenli ve ogrenme acisindan daha temiz bir akisti.
+
+#### Degisen dosyalar
+
+- `src/pages/TeachersPage/TeachersPage.tsx`
+- `src/types/teacher.ts`
+- `teachers.json`
+
+#### Sonuc
+
+- `Teacher` ve `Review` tipleri yazildi.
+- `teachers.json` verisi TypeScript tipleriyle kullanilmaya baslandi.
+- `TeachersPage` icinde listeleme mantigi kuruldu.
+
+### 13. Adim: Ilk 4 Kart ve Load More Davranisi
+
+#### Bu adimda ne yaptik?
+
+`useState` ile gorunen kart sayisi yonetildi. Ilk acilista 4 ogretmen gosterilecek sekilde `slice` mantigi eklendi ve `Load More` ile kart sayisi 4'er artacak sekilde baglandi.
+
+#### Neden bunu yaptik?
+
+Teknik sartnameye gore `Teachers` sayfasinda ilk durumda 4 kart gorunmeli ve kalan kartlar `Load More` ile eklenmelidir.
+
+#### Degisen dosyalar
+
+- `src/pages/TeachersPage/TeachersPage.tsx`
+
+#### Sonuc
+
+- Ilk acilista 4 kart gorunuyor.
+- `Load More` butonu kart sayisini artiriyor.
+- Tum kartlar gorundugunde buton gizleniyor.
+
+### 14. Adim: TeacherCard Component Ayrimi
+
+#### Bu adimda ne yaptik?
+
+Tek ogretmen karti yapisi `TeachersPage` icinden ayrilarak `TeacherCard` componentine tasinmaya baslandi. Avatar ve icerik wrapper mantigi kuruldu.
+
+#### Neden bunu yaptik?
+
+Sayfa componentinin veri ve liste davranisini yonetmesi, tek kart componentinin ise sadece gorunumu cizmesi React acisindan daha dogru bir sorumluluk ayrimidir.
+
+#### Degisen dosyalar
+
+- `src/components/TeacherCard/TeacherCard.tsx`
+- `src/components/TeacherCard/TeacherCard.module.css`
+- `src/pages/TeachersPage/TeachersPage.tsx`
+
+#### Sonuc
+
+- `TeacherCard` tek ogretmeni prop ile alacak sekilde kuruldu.
+- `TeachersPage` ile `TeacherCard` arasinda parent-child veri akisi olusturuldu.
+- Kartlar arasi bosluk parent seviyesinde dusunulmeye baslandi.
+- Kartin temel layout'u kuruldu, fakat Figma'ya uygun detayli stil henuz tamamlanmadi.
+
+## Kalanlar
+
+### Sonraki Kalan Adimlar
+
+#### 1. TeacherCard Tasarimini Tamamlama
+
+- `src/components/TeacherCard/TeacherCard.tsx`
+- `src/components/TeacherCard/TeacherCard.module.css`
 
 Yapilacaklar:
 
-- Hero alani
-- Avantajlar listesi
-- Teachers sayfasina giden CTA butonu
-- Figma temasina uygun tutarli stil
+- Figma'ya uygun kart ic layout'unu tamamlama
+- Top row, meta bilgiler, level pill'leri ve pricing alanini ekleme
+- Avatar ve icerik alaninin spacing ve alignment'ini duzeltme
+
+#### 2. Filters
+
+- `src/components/Filters/Filters.tsx`
+- `src/components/Filters/Filters.module.css`
+- `src/pages/TeachersPage/TeachersPage.tsx`
+
+Yapilacaklar:
+
+- Ogretim dili filtresi
+- Seviye filtresi
+- Saatlik ucret filtresi
+- Teachers listesine filtreleri uygulamak
 
 #### 3. Firebase Realtime Database
 
@@ -334,9 +426,9 @@ Yapilacaklar:
 
 - Firebase config kontrolu
 - Teachers verisini Realtime Database'den alma
-- Ilk 4 ogretmeni gosterecek veri akisini hazirlama
+- Local JSON mantigini Firebase veri akisina tasima
 
-#### 4. Teachers Page ve Load More
+#### 4. Teachers Page Liste Durumlari
 
 - `src/pages/TeachersPage/TeachersPage.tsx`
 - `src/pages/TeachersPage/TeachersPage.module.css`
@@ -345,18 +437,17 @@ Yapilacaklar:
 
 Yapilacaklar:
 
-- Ilk acilista 4 kart gostermek
-- Load more ile yeni veri istemek
 - Liste bos/yukleniyor durumlarini yonetmek
+- `TeacherList` componenti gerekip gerekmedigini netlestirmek
+- Load more mantigini Firebase istegiyle baglamak
 
-#### 5. TeacherCard
+#### 5. TeacherCard Davranislari
 
 - `src/components/TeacherCard/TeacherCard.tsx`
 - `src/components/TeacherCard/TeacherCard.module.css`
 
 Yapilacaklar:
 
-- Ogretmen temel bilgilerini gostermek
 - Read more ile detaylari acmak
 - Reviews gostermek
 - Book trial lesson butonunu eklemek
@@ -389,20 +480,7 @@ Yapilacaklar:
 - Sayfa yenilenince favori durumu korunmali
 - localStorage veya Firebase yontemi kullaniciyla birlikte secilmeli
 
-#### 8. Filters
-
-- `src/components/Filters/Filters.tsx`
-- `src/components/Filters/Filters.module.css`
-- `src/pages/TeachersPage/TeachersPage.tsx`
-
-Yapilacaklar:
-
-- Ogretim dili filtresi
-- Seviye filtresi
-- Saatlik ucret filtresi
-- Teachers listesine filtreleri uygulamak
-
-#### 9. Protected Favorites Route
+#### 8. Protected Favorites Route
 
 - `src/app/App.tsx`
 - `src/hooks/useAuth.ts`
@@ -412,7 +490,7 @@ Yapilacaklar:
 
 - Yetkisiz kullanici `/favorites` sayfasina giderse uygun sekilde yonlendirmek veya bilgilendirmek
 
-#### 10. README
+#### 9. README
 
 - `README.md`
 
@@ -424,7 +502,7 @@ Yapilacaklar:
 - Maket bilgisi
 - Deploy linki
 
-#### 11. Final Kontroller
+#### 10. Final Kontroller
 
 Yapilacaklar:
 
@@ -439,6 +517,6 @@ Yapilacaklar:
 
 Bir sonraki oturumda su adimdan devam edilecek:
 
-**Firebase auth fonksiyonlarini baglama**
+**TeacherCard tasarimini Figma'ya yaklastirma**
 
-Once `src/firebase/auth.ts` dosyasi okunacak. Sonra login ve register icin gerekli Firebase Authentication fonksiyonlari yazilacak. Ardindan bu fonksiyonlar `LoginForm` ve `RegisterForm` submitlerine baglanacak.
+Once `src/components/TeacherCard/TeacherCard.tsx` ve `src/components/TeacherCard/TeacherCard.module.css` uzerinden avatar alani, content alani, ust bilgi satiri ve metin akisi duzeltilecek. Ardindan filters alani ve tam kart bilgileri adim adim eklenecek.

@@ -2,6 +2,7 @@ import css from "./TeachersPage.module.css";
 import jsonData from "../../../teachers.json";
 import type { Teacher } from "../../types/teacher";
 import { useState } from "react";
+import TeacherCard from "../../components/TeacherCard/TeacherCard";
 
 function TeachersPage() {
   const teachers: Teacher[] = jsonData;
@@ -24,26 +25,14 @@ function TeachersPage() {
         <div className={css.teachersContainer}>
           <h2 className={css.teachersTitle}>Teachers</h2>
           {teachers.slice(0, visibleTeachers).map((teacher) => (
-            <div
+            <TeacherCard
               key={teacher.name + teacher.surname}
-              className={css.teacherCard}
-            >
-              <img
-                src={teacher.avatar_url}
-                alt={`${teacher.name} ${teacher.surname}`}
-                className={css.teacherAvatar}
-              />
-              <h3
-                className={css.teacherName}
-              >{`${teacher.name} ${teacher.surname}`}</h3>
-              <p className={css.teacherLanguages}>
-                {teacher.languages.join(", ")}
-              </p>
-              <p className={css.teacherRating}>{`Rating: ${teacher.rating}`}</p>
-            </div>
+              teacher={teacher}
+            />
           ))}
         </div>
       </section>
+
       {visibleTeachers < teachers.length && (
         <button
           type="button"

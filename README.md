@@ -1,73 +1,104 @@
-# React + TypeScript + Vite
+# LearnLingo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LearnLingo, online dil ogrenimi hizmeti sunan bir platformun frontend uygulamasidir. Proje React ogrenme odakli ilerletilmektedir ve teknik sartnameye gore adim adim gelistirilmektedir.
 
-Currently, two official plugins are available:
+## Proje Konusu
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Uygulama 3 ana sayfadan olusur:
 
-## React Compiler
+- `Home` sayfasi: platformun avantajlarini tanitir ve kullaniciyi `Teachers` sayfasina yonlendirir.
+- `Teachers` sayfasi: ogretmen listesi, filtreleme ve `Load more` davranisini icerir.
+- `Favorites` sayfasi: kullanicinin favorilere ekledigi ogretmenleri gosterir.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Kullanilan Teknolojiler
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- CSS Modules
+- Firebase Authentication
+- Firebase Realtime Database
+- React Hook Form
+- Yup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Mevcut Durum
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Tamamlanan temel kisimlar:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Router yapisi kuruldu.
+- Header ve auth modal altyapisi kuruldu.
+- Login ve register formlari olusturuldu.
+- Form validasyonlari `react-hook-form` ve `yup` ile baglandi.
+- Home page hero alani ve `Get Started` ile `Teachers` sayfasina gecis kuruldu.
+- `teachers.json` verisi projeye baglandi.
+- `Teachers` sayfasinda ilk `4` karti gosterme ve `Load more` mantigi baslatildi.
+- `TeacherCard` component ayrimi baslatildi.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Devam eden kisimlar:
+
+- Teachers kartinin Figma'ya uygun tam layout'u
+- Filters alani
+- Favorites mantigi
+- Read more davranisi
+- Book trial lesson modali
+- Firebase Realtime Database entegrasyonu
+
+## Teknik Sartname Ozeti
+
+Projede tamamlanmasi hedeflenen ana davranislar:
+
+- Firebase ile kayit, giris, cikis ve mevcut kullanici takibi
+- Sadece yetkili kullanicilar icin favorites davranisi
+- Ogretmenleri dil, seviye ve fiyat bazinda filtreleme
+- Ilk acilista 4 kart gosterme
+- `Load more` ile yeni kartlar getirme
+- `Read more` ile kart detaylarini acma
+- `Book trial lesson` ile modal form acma
+- Favorites sayfasinda secilen ogretmenleri listeleme
+
+## Klasor Mantigi
+
+- `src/app`: uygulama seviyesi bilesenler
+- `src/pages`: route bazli sayfalar
+- `src/components`: tekrar kullanilan UI bilesenleri
+- `src/hooks`: ozel hook'lar
+- `src/firebase`: auth ve database islemleri
+- `src/types`: TypeScript tip tanimlari
+- `src/styles`: global stiller ve degiskenler
+
+## Tasarim
+
+Arayuz, Figma tasarimi referans alinarak gelistirilmektedir. Ozellikle:
+
+- Home hero alani
+- Teachers filtre alani
+- Teacher card yerlesimi
+- Favorites sayfasi
+
+tasarima yakin olacak sekilde uygulanmaktadir.
+
+## Calistirma
+
+Projeyi lokal ortamda calistirmak icin:
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Build almak icin:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+## Notlar
+
+- Proje mentor odakli bir ogrenme sureciyle ilerletilmektedir.
+- Kod yapisinda parent-child layout mantigi ve component sorumluluk ayrimi ozellikle korunmaktadir.
+- Teknik sartname disinda gereksiz ekstra ozellik eklenmemektedir.
+
+## Deploy
+
+Deploy linki proje tamamlandiginda eklenecektir.
