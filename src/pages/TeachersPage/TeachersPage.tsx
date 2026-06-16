@@ -8,9 +8,16 @@ import Filters from "../../components/Filters/Filters";
 interface TeachersPageProps {
   favorites: string[];
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>;
+  onRequireAuth: () => void;
+  isAuthenticated: boolean;
 }
 
-function TeachersPage({ favorites, setFavorites }: TeachersPageProps) {
+function TeachersPage({
+  favorites,
+  setFavorites,
+  onRequireAuth,
+  isAuthenticated,
+}: TeachersPageProps) {
   const teachers: Teacher[] = jsonData;
   const [visibleTeachers, setVisibleTeachers] = useState(4);
   const [selectedPrice, setSelectedPrice] = useState("30");
@@ -26,6 +33,11 @@ function TeachersPage({ favorites, setFavorites }: TeachersPageProps) {
   );
   const handleToggleFavorite = (teacher: Teacher) => {
     const teacherKey = `${teacher.name} ${teacher.surname}`;
+
+    if (!isAuthenticated) {
+      onRequireAuth();
+      return;
+    }
 
     setFavorites((prev) =>
       prev.includes(teacherKey)

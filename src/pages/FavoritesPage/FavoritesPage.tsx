@@ -6,14 +6,26 @@ import css from "./FavoritesPage.module.css";
 interface FavoritesPageProps {
   favorites: string[];
   setFavorites: React.Dispatch<React.SetStateAction<string[]>>;
+  onRequireAuth: () => void;
+  isAuthenticated: boolean;
 }
 
-function FavoritesPage({ favorites, setFavorites }: FavoritesPageProps) {
+function FavoritesPage({
+  favorites,
+  setFavorites,
+  onRequireAuth,
+  isAuthenticated,
+}: FavoritesPageProps) {
   const favoriteTeachers: Teacher[] = jsonData.filter((teacher) =>
     favorites.includes(`${teacher.name} ${teacher.surname}`),
   );
   const handleToggleFavorite = (teacher: Teacher) => {
     const teacherKey = `${teacher.name} ${teacher.surname}`;
+
+    if (!isAuthenticated) {
+      onRequireAuth();
+      return;
+    }
 
     setFavorites((prev) =>
       prev.includes(teacherKey)

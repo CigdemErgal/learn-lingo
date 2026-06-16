@@ -22,8 +22,8 @@ function Modal({ children, onClose }: ModalProps) {
   }, [onClose]);
 
   return (
-    <div className={css.backdrop}>
-      <div className={css.modal}>
+    <div className={css.backdrop} onClick={onClose}>
+      <div className={css.modal} onClick={(e) => e.stopPropagation()}>
         <button type="button" className={css.closeButton} onClick={onClose}>
           <img src={closeIcon} alt="Close modal" className={css.closeIcon} />
         </button>

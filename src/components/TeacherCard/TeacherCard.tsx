@@ -4,6 +4,7 @@ import heartIcon from "../../assets/heart-icon.svg";
 import activeIcon from "../../assets/active-icon.svg";
 import { useState } from "react";
 import yellowHeartIcon from "../../assets/yellow-heart-icon.svg";
+import TrialLessonModal from "../TrialLessonModal/TrialLessonModal";
 
 type TeacherCardProps = {
   teacher: Teacher;
@@ -17,6 +18,7 @@ function TeacherCard({
   onToggleFavorite,
 }: TeacherCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
 
   return (
     <div className={css.teacherCard}>
@@ -26,9 +28,9 @@ function TeacherCard({
           alt={`${teacher.name} ${teacher.surname}`}
           className={css.teacherAvatar}
         />
-
         <img src={activeIcon} alt="Online" className={css.activeIcon} />
       </div>
+
       <div className={css.contentWrapper}>
         <div className={css.topRow}>
           <div className={css.titleBlock}>
@@ -46,6 +48,7 @@ function TeacherCard({
               Price / 1 hour: <span>{teacher.price_per_hour}$</span>
             </p>
           </div>
+
           <div className={css.rightBlock}>
             <button
               type="button"
@@ -71,6 +74,7 @@ function TeacherCard({
         <p className={css.infoText}>
           <span>Conditions:</span> {teacher.conditions.join(" ")}
         </p>
+
         <button
           type="button"
           className={css.readMoreButton}
@@ -78,6 +82,7 @@ function TeacherCard({
         >
           {isExpanded ? "Read less" : "Read more"}
         </button>
+
         {isExpanded && (
           <div className={css.expandedContent}>
             <p className={css.experienceText}>{teacher.experience}</p>
@@ -93,7 +98,7 @@ function TeacherCard({
                     <div className={css.reviewMeta}>
                       <p className={css.reviewerName}>{review.reviewer_name}</p>
                       <p className={css.reviewerRating}>
-                        ⭐ {review.reviewer_rating}
+                        Star {review.reviewer_rating}
                       </p>
                     </div>
                   </div>
@@ -103,7 +108,11 @@ function TeacherCard({
               ))}
             </div>
 
-            <button type="button" className={css.trialLessonButton}>
+            <button
+              type="button"
+              className={css.trialLessonButton}
+              onClick={() => setIsTrialModalOpen(true)}
+            >
               Book trial lesson
             </button>
           </div>
@@ -120,6 +129,13 @@ function TeacherCard({
           ))}
         </div>
       </div>
+
+      {isTrialModalOpen && (
+        <TrialLessonModal
+          teacher={teacher}
+          onClose={() => setIsTrialModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

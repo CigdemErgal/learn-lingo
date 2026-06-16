@@ -39,13 +39,23 @@ function App() {
         <Route
           path="/teachers"
           element={
-            <TeachersPage favorites={favorites} setFavorites={setFavorites} />
+            <TeachersPage
+              favorites={favorites}
+              setFavorites={setFavorites}
+              onRequireAuth={() => setAuthModalType("login")}
+              isAuthenticated={Boolean(user)}
+            />
           }
         />
         <Route
           path="/favorites"
           element={
-            <FavoritesPage favorites={favorites} setFavorites={setFavorites} />
+            <FavoritesPage
+              favorites={favorites}
+              setFavorites={setFavorites}
+              onRequireAuth={() => setAuthModalType("login")}
+              isAuthenticated={Boolean(user)}
+            />
           }
         />
       </Routes>
