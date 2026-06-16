@@ -184,3 +184,8 @@ Teslim oncesi istege bagli son adimlar:
 - deploy linkini README'ye eklemek
 - isterse Firebase rules tarafini production icin sikilastirmak
 - son UI/UX polish kontrollerini tamamlamak
+
+## Deploy
+
+Projenin canli surumu:
+https://learn-lingo-five-taupe.vercel.app
