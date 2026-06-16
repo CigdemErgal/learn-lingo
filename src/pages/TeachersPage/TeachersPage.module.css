@@ -3,3 +3,43 @@
   flex-direction: column;
   gap: 32px;
 }
+.teachersPageMain {
+  width: 100%;
+  padding: 32px 0 96px;
+  background-color: #f8f8f8;
+}
+
+.teachersPageFilterSection {
+  width: 1184px;
+  margin: 0 auto 32px;
+}
+
+.filterContainer {
+  display: flex;
+  align-items: flex-end;
+}
+
+.teacherListSection {
+  width: 1184px;
+  margin: 0 auto;
+}
+
+.teachersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.loadMoreButton {
+  display: block;
+  margin: 64px auto 0;
+  min-width: 183px;
+  height: 60px;
+  border: none;
+  border-radius: 12px;
+  background-color: #f4c550;
+  color: #121417;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}

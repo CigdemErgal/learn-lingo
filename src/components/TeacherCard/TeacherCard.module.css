@@ -1,34 +1,237 @@
 .teacherCard {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-
+  align-items: flex-start;
+  gap: 48px;
   padding: 24px;
-  background-color: #f8f8f8;
-  width: 1184px;
-  height: 328px;
-  border-radius: 30px;
-  gap: 32px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  width: 100%;
 }
 .avatarWrapper {
+  position: relative;
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 3px solid #fbe9ba;
-  overflow: hidden;
-  background-color: #fff;
+  padding: 12px;
+  background-color: #ffffff;
+  flex-shrink: 0;
+}
+.activeIcon {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
 }
 .contentWrapper {
   display: flex;
-  flex-direction: space-between;
+  flex-direction: column;
+  flex: 1;
 }
 .teacherAvatar {
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  object-fit: cover;
+}
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.teacherLabel {
+  margin: 0 0 8px 0;
+  color: rgba(18, 20, 23, 0.5);
+  font-size: 14px;
+  font-weight: 500;
+}
+.teacherName {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #121417;
+}
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+}
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.metaRow p {
+  margin: 0;
+  color: #121417;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.metaRow span {
+  color: #38cd3e;
+}
+.metaRow p:not(:last-child)::after {
+  content: "|";
+  margin-left: 16px;
+  color: rgba(18, 20, 23, 0.2);
+}
+
+.infoText {
+  margin: 0 0 8px 0;
+  color: rgba(18, 20, 23, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.infoText span {
+  color: rgba(18, 20, 23, 0.5);
+}
+.readMoreButton {
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #121417;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.levelsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.levelTag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(18, 20, 23, 0.2);
+  border-radius: 35px;
+  color: #121417;
+  font-size: 14px;
+  font-weight: 500;
+}
+.activeLevelTag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 35px;
+  background-color: #f4c550;
+  color: #121417;
+  font-size: 14px;
+  font-weight: 500;
+}
+.rightBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.favoriteButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  margin: 0 auto;
+}
+
+.favoriteButton img {
+  width: 26px;
+  height: 26px;
+}
+.trialLessonButton {
+  min-width: 232px;
+  height: 60px;
+  border: none;
+  border-radius: 12px;
+  background-color: #f4c550;
+  color: #121417;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.expandedContent {
+  margin-top: 16px;
+}
+
+.experienceText {
+  margin: 0 0 24px 0;
+  color: rgba(18, 20, 23, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.reviewItem {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #fbe9ba;
+  color: #121417;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.reviewMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reviewerName {
+  margin: 0;
+  color: #121417;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.reviewerRating {
+  margin: 0;
+  color: #121417;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.reviewComment {
+  margin: 0;
+  color: rgba(18, 20, 23, 0.8);
+  font-size: 16px;
+  line-height: 1.5;
 }

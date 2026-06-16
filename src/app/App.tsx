@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import HomePage from "../pages/HomePage/HomePage";
 import TeachersPage from "../pages/TeachersPage/TeachersPage";
@@ -18,7 +18,13 @@ function App() {
   const handleLogOut = async () => {
     await signOutUser();
   };
-
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    const savedFavorites = localStorage.getItem("favorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
   return (
     <div className={css.app}>
       <Header
@@ -30,8 +36,18 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/teachers" element={<TeachersPage />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route
+          path="/teachers"
+          element={
+            <TeachersPage favorites={favorites} setFavorites={setFavorites} />
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <FavoritesPage favorites={favorites} setFavorites={setFavorites} />
+          }
+        />
       </Routes>
       <AuthModal
         modalType={authModalType}
