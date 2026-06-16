@@ -1,9 +1,9 @@
 import css from "./TeachersPage.module.css";
-import jsonData from "../../../teachers.json";
 import type { Teacher } from "../../types/teacher";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TeacherCard from "../../components/TeacherCard/TeacherCard";
 import Filters from "../../components/Filters/Filters";
+import { getTeachers, getTeachersCount } from "../../firebase/teachers";
 
 interface TeachersPageProps {
   favorites: string[];
@@ -18,11 +18,53 @@ function TeachersPage({
   onRequireAuth,
   isAuthenticated,
 }: TeachersPageProps) {
-  const teachers: Teacher[] = jsonData;
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [visibleTeachers, setVisibleTeachers] = useState(4);
   const [selectedPrice, setSelectedPrice] = useState("30");
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [selectedLevel, setSelectedLevel] = useState("All");
+  const [totalTeachersCount, setTotalTeachersCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadTeachers() {
+      setIsLoading(true);
+      setError("");
+
+      try {
+        const [loadedTeachers, totalCount] = await Promise.all([
+          getTeachers(visibleTeachers),
+          getTeachersCount(),
+        ]);
+
+        if (!isMounted) {
+          return;
+        }
+
+        setTeachers(loadedTeachers);
+        setTotalTeachersCount(totalCount);
+      } catch {
+        if (!isMounted) {
+          return;
+        }
+
+        setError("Unable to load teachers right now.");
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadTeachers();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [visibleTeachers]);
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
@@ -45,7 +87,7 @@ function TeachersPage({
         : [...prev, teacherKey],
     );
   };
-  console.log(filteredTeachers);
+
   const handleLoadMore = () => {
     setVisibleTeachers((prev) => prev + 4);
   };
@@ -67,26 +109,28 @@ function TeachersPage({
 
       <section className={css.teacherListSection}>
         <div className={css.teachersContainer}>
-          {filteredTeachers.length === 0 ? (
+          {isLoading ? (
+            <p className={css.noTeachersMessage}>Loading teachers...</p>
+          ) : error ? (
+            <p className={css.noTeachersMessage}>{error}</p>
+          ) : filteredTeachers.length === 0 ? (
             <p className={css.noTeachersMessage}>No teachers found.</p>
           ) : (
-            filteredTeachers
-              .slice(0, visibleTeachers)
-              .map((teacher) => (
-                <TeacherCard
-                  key={teacher.name + teacher.surname}
-                  teacher={teacher}
-                  isFavorite={favorites.includes(
-                    `${teacher.name} ${teacher.surname}`,
-                  )}
-                  onToggleFavorite={handleToggleFavorite}
-                />
-              ))
+            filteredTeachers.map((teacher) => (
+              <TeacherCard
+                key={teacher.name + teacher.surname}
+                teacher={teacher}
+                isFavorite={favorites.includes(
+                  `${teacher.name} ${teacher.surname}`,
+                )}
+                onToggleFavorite={handleToggleFavorite}
+              />
+            ))
           )}
         </div>
       </section>
 
-      {visibleTeachers < filteredTeachers.length && (
+      {!isLoading && !error && visibleTeachers < totalTeachersCount && (
         <button
           type="button"
           className={css.loadMoreButton}

@@ -21,13 +21,14 @@ function TrialLessonModal({ teacher, onClose }: TrialLessonModalProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TrialLessonFormData>({
     resolver: yupResolver(trialLessonSchema),
   });
 
-  const onSubmit = (data: TrialLessonFormData) => {
-    console.log(data);
+  const onSubmit = () => {
+    reset();
     onClose();
   };
 
