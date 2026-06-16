@@ -121,6 +121,7 @@ FIREBASE_SEED_PASSWORD=
 ```
 
 Not:
+
 - `FIREBASE_SEED_EMAIL` ve `FIREBASE_SEED_PASSWORD` sadece gerekliyse seed scripti icin kullanilir.
 - Realtime Database test mode'da ise seed scripti bu bilgiler olmadan da calisabilir.
 
@@ -183,7 +184,3 @@ Teslim oncesi istege bagli son adimlar:
 - deploy linkini README'ye eklemek
 - isterse Firebase rules tarafini production icin sikilastirmak
 - son UI/UX polish kontrollerini tamamlamak
-
-## Deploy
-
-Deploy linki henuz eklenmemistir.
